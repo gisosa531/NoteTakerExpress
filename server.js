@@ -2,8 +2,8 @@
 const express = require('express');
 
 //access js files
-require('./routes/api');
-require('./routes/html');
+const api = require('./routes/api');
+const html = require('./routes/html');
 
 //initializes express app and creates port for heroku
 const app = express();
