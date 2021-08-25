@@ -1,7 +1,7 @@
 const util = require('util');
 const fs = require('fs');
 
-const uuid = require('./uuid');
+const uuid = require('./helpers/uuid.js');
 
 const readFromFile = util.promisify(fs.readFile);
 const writeToFile = util.promisify(fs.writeFile);
@@ -15,7 +15,7 @@ class Data {
     }
 
     getInfo() {
-        return this.read().then((info) => {
+        return this.read().then(() => {
             let parsedInfo;
             return parsedInfo;
         })
@@ -24,7 +24,7 @@ class Data {
     addNote(info) {
         const { title, text } = info;
         const newNote = { title, text, id: uuid() };
-        return this.getNotes()
+        return this.getInfo()
         .then ((info) => [...info, newNote])
         .then((updateInfo)=> this.write(updateInfo))
         .then(() => newNote);

@@ -13,11 +13,11 @@ const PORT = process.env.PORT || 3001;
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-app.use('/api', api);
-app.use('/', html);
-
 // access public folder 
 app.use(express.static('public'));
+
+app.use('/', html);
+app.use('/api', api);
 
 // Start setup listener on port
 app.listen(PORT, () => console.log(`App listening on port: ${PORT}`));
