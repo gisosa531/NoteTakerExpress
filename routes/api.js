@@ -1,27 +1,27 @@
 const fs = require("fs");
-const inputData = require("../db/db.json");
-
-module.exports = app => {
+let inputData = require("../db/db.json");
+const router = require("express").Router();
+const { v4: uuidv4 } = require('uuid');
 
     function updateDB(info){
         info = JSON.stringify(info);
         console.log (info);
-        fs.writeFile("../db/db.json", info, function(err){
+        fs.writeFile("./db/db.json", info, function(err){
             if (err) throw err;
         });
     }
 
-    app.get("/api/notes", function(req, res){
+    router.get("/notes", function(req, res){
         res.json(inputData);
     });
 
-    app.post("/api/notes", function(req, res){
+    router.post("/notes", function(req, res){
 
-        if (inputData.length !== 0){
-            req.body.id = JSON.stringify(JSON.parse(inputData[inputData.length - 1].id) + 1);
-        } else{
-            req.body.id = "0";
-        }
+        // if (inputData.length !== 0){
+            req.body.id = uuidv4(); 
+        // } else{
+        //     req.body.id = "0";
+        // }
         
         console.log("req.body.id: " + req.body.id);
 
@@ -32,6 +32,18 @@ module.exports = app => {
         res.json(req.body);
     });
 
+    router.delete("/notes/:id", function(req, res){
+       var id = req.params.id 
+       var newNotes = [];
+       for (i = 0; i < inputData.length; i++){
+           var note = inputData[i];
+           if(note.id !== id){
+            newNotes.push(note);
+           }
+       }
+       updateDB(newNotes);
+       inputData = newNotes;
+       res.json(newNotes);
+    });
 
-        updateDB(inputData);
-};
+        module.exports = router;

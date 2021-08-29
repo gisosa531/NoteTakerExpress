@@ -14,7 +14,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.16.4"
+    "express": "^4.16.4",
+    "uuid": "^8.3.2"
   },
   "bugs": {
     "url": "https://github.com/gisosa531/NoteTakerExpress/issues"
